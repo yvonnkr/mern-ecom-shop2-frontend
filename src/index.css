@@ -170,20 +170,24 @@ a:hover {
 }
 
 .details-image {
-  flex: 2 1 60rem;
+  /* flex: 2 1 60rem; */
+  flex: 2 1 40rem;
 }
 
 .details-image img {
-  max-width: 60rem;
+  /* max-width: 60rem; */
+  max-width: 40rem;
   width: 100%;
 }
 
 .details-info {
-  flex: 1 1 30rem;
+  /* flex: 1 1 30rem; */
+  flex: 1 1 10rem;
 }
 
 .details-action {
-  flex: 1 1 30rem;
+  /* flex: 1 1 30rem; */
+  flex: 1 1 10rem;
 }
 
 .details-info ul,
