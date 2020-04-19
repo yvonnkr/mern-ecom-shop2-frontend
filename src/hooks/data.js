@@ -1,14 +1,17 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getProducts } from "./../actions/productActions";
+import { listProducts } from "./../actions/productActions";
 
+//example not currently using in this app
 export const useFetchData = () => {
-  const products = useSelector((state) => state.productsList.products);
+  const productList = useSelector((state) => state.productsList);
   const dispatch = useDispatch();
 
+  const { products, loading, error } = productList;
+
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(listProducts());
   }, [dispatch]);
 
-  return [products];
+  return [products, loading, error];
 };

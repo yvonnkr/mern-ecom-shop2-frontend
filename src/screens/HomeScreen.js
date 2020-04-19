@@ -1,13 +1,37 @@
-import React from "react";
+import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { useFetchData } from "./../hooks/data";
+import { useSelector, useDispatch } from "react-redux";
+import { listProducts } from "./../actions/productActions";
 
 const HomeScreen = () => {
-  const [products] = useFetchData();
+  const productList = useSelector((state) => state.productsList);
+  const dispatch = useDispatch();
 
-  return (
-    <>
+  const { products, loading, error } = productList;
+
+  useEffect(() => {
+    dispatch(listProducts());
+  }, [dispatch]);
+
+  const showLoading = () => {
+    return (
+      <div>
+        <h2>Loading...</h2>
+      </div>
+    );
+  };
+
+  const showError = () => {
+    return (
+      <div>
+        <h2>{error}</h2>
+      </div>
+    );
+  };
+
+  const displayProducts = () => {
+    return (
       <ul className="products">
         {products.length > 0 &&
           products.map((product) => (
@@ -32,7 +56,13 @@ const HomeScreen = () => {
             </li>
           ))}
       </ul>
-    </>
+    );
+  };
+
+  return (
+    <Fragment>
+      {loading ? showLoading() : error ? showError() : displayProducts()}
+    </Fragment>
   );
 };
 
