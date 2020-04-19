@@ -1,15 +1,17 @@
-import React, { Fragment, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import React, { useState, Fragment, useEffect } from "react";
+import { useParams, Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { detailsProduct, clearProduct } from "../actions/productActions";
 
 const ProductScreen = () => {
+  const [qty, setQty] = useState(1);
   const productDetails = useSelector((state) => state.productDetails);
   const { product, loading, error } = productDetails;
 
   const { id } = useParams();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(detailsProduct(id));
@@ -18,6 +20,10 @@ const ProductScreen = () => {
       dispatch(clearProduct());
     };
   }, [dispatch, id]);
+
+  const handleAddToCart = () => {
+    history.push(`/cart/${id}?qty=${qty}`);
+  };
 
   const showLoading = () => {
     return (
@@ -74,18 +80,32 @@ const ProductScreen = () => {
                     Status:{" "}
                     {product.countInStock > 0 ? "In Stock" : "Out of Stock"}
                   </li>
+
                   <li>
                     Qty:{" "}
-                    <select name="">
-                      <option value="">1</option>
-                      <option value="">2</option>
-                      <option value="">3</option>
-                      <option value="">4</option>
-                      <option value="">5</option>
+                    <select
+                      value={qty}
+                      onChange={(e) => {
+                        setQty(e.target.value);
+                      }}
+                    >
+                      {[...Array(product.countInStock).keys()].map((x) => (
+                        <option key={x + 1} value={x + 1}>
+                          {x + 1}
+                        </option>
+                      ))}
                     </select>
                   </li>
+
                   <li>
-                    <button className="button primary">Add to Cart</button>
+                    {product.countInStock > 0 && (
+                      <button
+                        onClick={handleAddToCart}
+                        className="button primary"
+                      >
+                        Add to Cart
+                      </button>
+                    )}
                   </li>
                 </ul>
               </div>
