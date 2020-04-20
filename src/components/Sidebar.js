@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const closeMenu = () => {
@@ -13,10 +14,10 @@ const Sidebar = () => {
       </button>
       <ul>
         <li>
-          <a href="index.html">Pants</a>
+          <Link to="/">Pants</Link>
         </li>
         <li>
-          <a href="index.html">Shirts</a>
+          <Link to="/">Shirts</Link>
         </li>
       </ul>
     </aside>

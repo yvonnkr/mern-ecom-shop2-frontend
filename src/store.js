@@ -1,10 +1,15 @@
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
+import Cookie from "js-cookie";
 
 import rootReducer from "./reducers/rootReducer";
 
-const initialState = {};
+const cartItems = Cookie.getJSON("cartItems") || [];
+
+const initialState = {
+  cart: { cartItems: cartItems, shipping: {}, payment: {} },
+};
 
 const middleware = [thunk];
 
