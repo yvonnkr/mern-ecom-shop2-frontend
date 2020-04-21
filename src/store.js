@@ -6,9 +6,11 @@ import Cookie from "js-cookie";
 import rootReducer from "./reducers/rootReducer";
 
 const cartItems = Cookie.getJSON("cartItems") || [];
+const userInfo = Cookie.getJSON("userInfo") || undefined;
 
 const initialState = {
-  cart: { cartItems: cartItems, shipping: {}, payment: {} },
+  cart: { cartItems, shipping: {}, payment: {} },
+  userSignin: { userInfo },
 };
 
 const middleware = [thunk];

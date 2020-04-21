@@ -1,7 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../actions/userActions";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state) => state.userSignin);
+
   const openMenu = () => {
     document.querySelector(".sidebar").classList.add("open");
   };
@@ -14,7 +19,13 @@ const Header = () => {
       </div>
       <div className="header-links">
         <NavLink to="/cart">Cart</NavLink>
-        <NavLink to="/signin">Sign In</NavLink>
+        {userInfo && <NavLink to="/profile">{userInfo.name}</NavLink>}
+        {!userInfo && <NavLink to="/signin">Sign In</NavLink>}
+        {userInfo && (
+          <NavLink to="/signin" onClick={() => dispatch(logout())}>
+            Sign Out
+          </NavLink>
+        )}
       </div>
     </header>
   );
