@@ -20,7 +20,21 @@ const Header = () => {
       <div className="header-links">
         <NavLink to="/cart">Cart</NavLink>
         {userInfo && <NavLink to="/profile">{userInfo.name}</NavLink>}
+
         {!userInfo && <NavLink to="/signin">Sign In</NavLink>}
+
+        {userInfo && userInfo.isAdmin && (
+          <div className="dropdown">
+            <NavLink to="#">Admin</NavLink>
+            <ul className="dropdown-content">
+              <li>
+                <NavLink to="/orders">Orders</NavLink>
+                <NavLink to="/products">Products</NavLink>
+              </li>
+            </ul>
+          </div>
+        )}
+
         {userInfo && (
           <NavLink to="/signin" onClick={() => dispatch(logout())}>
             Sign Out

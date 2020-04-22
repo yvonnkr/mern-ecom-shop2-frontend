@@ -64,6 +64,7 @@ const CartScreen = () => {
                     <button
                       type="button"
                       className="button-danger"
+                      style={{ color: "red" }}
                       onClick={() => removeFromCartHandler(item.product)}
                     >
                       Delete
