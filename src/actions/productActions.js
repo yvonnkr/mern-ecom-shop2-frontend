@@ -17,11 +17,18 @@ import {
   PRODUCT_DELETE_REQUEST,
 } from "../constants/productConstants";
 
-export const listProducts = () => async (dispatch) => {
+export const listProducts = (
+  category = "",
+  searchKeyword = "",
+  sortOrder = ""
+) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
 
-    const { data } = await axios.get(`${API}/api/products`);
+    // const { data } = await axios.get(`${API}/api/products`);
+    const { data } = await axios.get(
+      `${API}/api/products?category=${category}&searchKeyword=${searchKeyword}&sortOrder=${sortOrder}`
+    );
 
     dispatch({
       type: PRODUCT_LIST_SUCCESS,

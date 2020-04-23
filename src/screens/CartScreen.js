@@ -38,8 +38,8 @@ const CartScreen = () => {
           {cartItems.length === 0 ? (
             <div>Cart is empty</div>
           ) : (
-            cartItems.map((item) => (
-              <li key={+item.product}>
+            cartItems.map((item, index) => (
+              <li key={item.product}>
                 <div className="cart-image">
                   <img src={item.image} alt="product" />
                 </div>
@@ -80,7 +80,7 @@ const CartScreen = () => {
 
       <div className="cart-action">
         <h3>
-          Subtotal ( {cartItems.reduce((a, c) => a + c.qty, 0)} items) : £{" "}
+          Subtotal ( {cartItems.reduce((a, c) => a + +c.qty, 0)} items) : £
           {cartItems.reduce((a, c) => a + c.price * c.qty, 0)}
         </h3>
         <button

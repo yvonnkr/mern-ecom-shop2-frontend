@@ -1,43 +1,62 @@
-import React, { Fragment, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
 import { useSelector, useDispatch } from "react-redux";
-import { listProducts } from "./../actions/productActions";
+import { listProducts } from "../actions/productActions";
 
-const HomeScreen = () => {
+const HomeScreen = (props) => {
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [sortOrder, setSortOrder] = useState("");
+  const category = props.match.params.id ? props.match.params.id : "";
   const productList = useSelector((state) => state.productsList);
+  const { products, loading, error } = productList;
   const dispatch = useDispatch();
 
-  const { products, loading, error } = productList;
-
   useEffect(() => {
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts(category));
+  }, [category, dispatch]);
 
-  const showLoading = () => {
-    return (
-      <div>
-        <h2>Loading...</h2>
-      </div>
-    );
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(listProducts(category, searchKeyword, sortOrder));
+  };
+  const sortHandler = (e) => {
+    setSortOrder(e.target.value);
+    dispatch(listProducts(category, searchKeyword, sortOrder));
   };
 
-  const showError = () => {
-    return (
-      <div>
-        <h2>{error}</h2>
-      </div>
-    );
-  };
+  return (
+    <>
+      {category && <h2>{category}</h2>}
 
-  const displayProducts = () => {
-    return (
-      <ul className="products">
-        {products.length > 0 &&
-          products.map((product) => (
+      <ul className="filter">
+        <li>
+          <form onSubmit={submitHandler}>
+            <input
+              name="searchKeyword"
+              onChange={(e) => setSearchKeyword(e.target.value)}
+            />
+            <button type="submit">Search</button>
+          </form>
+        </li>
+        <li>
+          Sort By{" "}
+          <select name="sortOrder" onChange={sortHandler}>
+            <option value="">Newest</option>
+            <option value="lowest">Lowest</option>
+            <option value="highest">Highest</option>
+          </select>
+        </li>
+      </ul>
+      {loading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div>{error}</div>
+      ) : (
+        <ul className="products">
+          {products.map((product) => (
             <li key={product._id}>
               <div className="product">
-                <Link to={`/product/${product._id}`}>
+                <Link to={"/product/" + product._id}>
                   <img
                     className="product-image"
                     src={product.image}
@@ -45,25 +64,24 @@ const HomeScreen = () => {
                   />
                 </Link>
                 <div className="product-name">
-                  <Link to={`/product/${product._id}`}>{product.name}</Link>
+                  <Link to={"/product/" + product._id}>{product.name}</Link>
                 </div>
                 <div className="product-brand">{product.brand}</div>
                 <div className="product-price">£{product.price}</div>
                 <div className="product-rating">
-                  {`${product.rating} Stars (${product.numReviews} Reviews)`}
+                  {product.rating} Stars ({product.numReviews} Reviews)
+                </div>
+                <div>
+                  {[...Array(product.rating).keys()].map((k, i) => (
+                    <span key={i} className="fa fa-star checked"></span>
+                  ))}
                 </div>
               </div>
             </li>
           ))}
-      </ul>
-    );
-  };
-
-  return (
-    <Fragment>
-      {loading ? showLoading() : error ? showError() : displayProducts()}
-    </Fragment>
+        </ul>
+      )}
+    </>
   );
 };
-
 export default HomeScreen;

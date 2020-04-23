@@ -12,12 +12,12 @@ const Sidebar = () => {
       <button className="sidebar-close-button" onClick={closeMenu}>
         x
       </button>
-      <ul>
+      <ul className="categories">
         <li>
-          <Link to="/">Pants</Link>
+          <Link to="/category/Pants">Pants</Link>
         </li>
         <li>
-          <Link to="/">Shirts</Link>
+          <Link to="/category/Shirts">Shirts</Link>
         </li>
       </ul>
     </aside>

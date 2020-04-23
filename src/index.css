@@ -130,6 +130,10 @@ a:hover {
   margin-bottom: 1rem;
 }
 
+.checked {
+  color: orange;
+}
+
 /* Sidebar */
 
 .brand button {
@@ -260,6 +264,8 @@ a:hover {
 
 .cart-list {
   flex: 3 1 60rem;
+  background-color: #f0f0f0;
+  /* added*/
 }
 
 .cart-action {
@@ -273,6 +279,7 @@ a:hover {
   padding: 0;
   list-style-type: none;
   padding: 1rem;
+
 
 }
 
@@ -388,6 +395,11 @@ tbody>tr:nth-child(odd) {
 .checkout-steps>div.active {
   border-top: .3rem #f08000 solid;
   color: #f08000;
+}
+
+.checkout-steps>div.active a {
+  color: #f08000;
+
 }
 
 /* Place Order */

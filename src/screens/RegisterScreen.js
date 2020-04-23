@@ -24,7 +24,8 @@ const RegisterScreen = (props) => {
     if (userInfo) {
       history.push(redirect);
     }
-  }, [history, userInfo, redirect]);
+    // eslint-disable-next-line
+  }, [history, userInfo]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -32,7 +33,6 @@ const RegisterScreen = (props) => {
       setPasswordError("passwords don't match");
     } else {
       dispatch(register(name, email, password));
-      history.push("/");
     }
   };
   return (
